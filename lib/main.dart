@@ -25,7 +25,8 @@ class Bralert extends StatefulWidget {
 class _BralertState extends State<Bralert> {
   int sizeOfPrefs;
   String setTitle;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessagerKey =
+      new GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
@@ -109,23 +110,27 @@ class _BralertState extends State<Bralert> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
-              color: Colors.red,
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.red),
+              ),
               child: Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
                 print('No');
               },
             ),
-            FlatButton(
-              color: Colors.green,
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.green),
+              ),
               child: Text('Yes'),
               onPressed: () {
                 setState(() {
                   _removeTodo(title);
                 });
 
-                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                _scaffoldMessagerKey.currentState.showSnackBar(SnackBar(
                   content: Text('Successfully Removed...'),
                   backgroundColor: Colors.green,
                   duration: Duration(seconds: 3),
@@ -230,7 +235,7 @@ class _BralertState extends State<Bralert> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            key: _scaffoldKey,
+            key: _scaffoldMessagerKey,
             appBar: AppBar(
               titleSpacing: 40,
               actions: <Widget>[

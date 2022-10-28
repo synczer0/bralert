@@ -100,28 +100,32 @@ class ControlButton extends StatelessWidget {
       buttonHeight: 40,
       alignment: MainAxisAlignment.end,
       children: <Widget>[
-        RaisedButton(
-          color: Theme.of(context).primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              width: 0.5,
-            ),
-          ),
+        ElevatedButton(
+          style: ButtonStyle(
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(width: 0.5),
+                ),
+              ),
+              foregroundColor:
+                  MaterialStatePropertyAll(Theme.of(context).primaryColor)),
           onPressed: () {
             title.text = "";
             description.text = "";
           },
           child: Text('Clear'),
         ),
-        RaisedButton(
-          color: Theme.of(context).primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              width: 0.5,
-            ),
-          ),
+        ElevatedButton(
+          style: ButtonStyle(
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(width: 0.5),
+                ),
+              ),
+              foregroundColor:
+                  MaterialStatePropertyAll(Theme.of(context).primaryColor)),
           onPressed: () async {
             String message = "Task successfully added";
             bool flag;
@@ -142,8 +146,7 @@ class ControlButton extends StatelessWidget {
               ),
               backgroundColor: flag ? Colors.green : Colors.red,
             );
-
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           child: Text('Submit'),
         ),
