@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Global variable
-int sizeOfPrefs;
+int? sizeOfPrefs;
 
 class AddTodo extends StatelessWidget {
   @override
@@ -38,8 +38,10 @@ class AddTodo extends StatelessWidget {
                         hintText: 'What is your task plan?',
                         labelText: 'Task Title',
                       ),
-                      validator: (String value) {
-                        return value.isEmpty ? 'Please, enter title....' : null;
+                      validator: (String? value) {
+                        return value!.isEmpty
+                            ? 'Please, enter title....'
+                            : null;
                       },
                     ),
                   ),
@@ -57,8 +59,8 @@ class AddTodo extends StatelessWidget {
                             'Enter your description \nfor the task that is on your mind.',
                         labelText: 'Task Description',
                       ),
-                      validator: (String value) {
-                        return value.contains(null)
+                      validator: (String? value) {
+                        return value!.contains('')
                             ? 'Please enter description...'
                             : null;
                       },
@@ -83,7 +85,6 @@ class ControlButton extends StatelessWidget {
 
   void setPrefs(title, description) async {
     final prefs = await SharedPreferences.getInstance();
-
     prefs.setString(title, description);
   }
 
@@ -101,19 +102,20 @@ class ControlButton extends StatelessWidget {
       children: <Widget>[
         ElevatedButton(
           style: ButtonStyle(
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(width: 0.5),
-                ),
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(width: 0.5),
               ),
-              foregroundColor:
-                  MaterialStatePropertyAll(Theme.of(context).primaryColor)),
+            ),
+            foregroundColor:
+                MaterialStatePropertyAll(Theme.of(context).primaryColor),
+          ),
           onPressed: () {
             title.text = "";
             description.text = "";
           },
-          child: Text('Clear'),
+          child: Text('Clear', style: TextStyle(color: Colors.white)),
         ),
         ElevatedButton(
           style: ButtonStyle(
@@ -147,7 +149,7 @@ class ControlButton extends StatelessWidget {
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
-          child: Text('Submit'),
+          child: Text('Submit', style: TextStyle(color: Colors.white)),
         ),
       ],
     );

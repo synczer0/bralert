@@ -23,8 +23,8 @@ class Bralert extends StatefulWidget {
 }
 
 class _BralertState extends State<Bralert> {
-  int sizeOfPrefs;
-  String setTitle;
+  int? sizeOfPrefs;
+  String? setTitle;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessagerKey =
       new GlobalKey<ScaffoldMessengerState>();
 
@@ -47,9 +47,8 @@ class _BralertState extends State<Bralert> {
     return getTitle.getKeys().elementAt(e);
   }
 
-  Future<String> getTaskDescription(e) async {
+  Future<String?> getTaskDescription(e) async {
     final getDes = await SharedPreferences.getInstance();
-
     return getDes.getString(e);
   }
 
@@ -61,7 +60,7 @@ class _BralertState extends State<Bralert> {
   Future<List> taskTitle() async {
     var getSize = await getTaskAll();
     var getSome;
-    List getTitles = new List();
+    List getTitles = [];
 
     // sizeOfPrefs = getSize;
     for (var i = 0; i < getSize; i++) {
@@ -75,7 +74,7 @@ class _BralertState extends State<Bralert> {
   Widget textTitle(index) {
     return FutureBuilder(
       future: taskTitle(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           // print(snapshot.data[index]);
           return Text(snapshot.data[index]);
@@ -87,14 +86,12 @@ class _BralertState extends State<Bralert> {
     );
   }
 
-  _removeTodo(index) async {
+  void _removeTodo(index) async {
     final getTitle = await SharedPreferences.getInstance();
     getTitle.remove(index);
-    getTitle.reload();
-    print('successfully remove');
   }
 
-  Future<void> _showMyDialog(title) async {
+  Future<void> _showMyDialog(index) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -127,16 +124,15 @@ class _BralertState extends State<Bralert> {
               child: Text('Yes'),
               onPressed: () {
                 setState(() {
-                  _removeTodo(title);
+                  _removeTodo(index);
                 });
 
-                _scaffoldMessagerKey.currentState.showSnackBar(SnackBar(
+                _scaffoldMessagerKey.currentState?.showSnackBar(SnackBar(
                   content: Text('Successfully Removed...'),
                   backgroundColor: Colors.green,
                   duration: Duration(seconds: 3),
                 ));
                 Navigator.of(context).pop();
-                // print('Yes');
               },
             ),
           ],
@@ -148,7 +144,7 @@ class _BralertState extends State<Bralert> {
   Widget createListView(context) {
     return FutureBuilder(
       future: getTaskAll(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           print(snapshot.data);
           return ListView.separated(
@@ -172,14 +168,10 @@ class _BralertState extends State<Bralert> {
                       ),
                       onPressed: () {
                         taskTitle().then((value) {
-                          print(value[index]);
                           _showMyDialog(value[index]);
                         });
                       }),
-                  onTap: () async {
-                    // print(x);
-                    // DONE: OnTap view the title and details
-
+                  onTap: () {
                     taskTitle().then((value) async {
                       print(value[index]);
 

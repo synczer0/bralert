@@ -1,4 +1,3 @@
-import 'package:bralert/edit_todo.dart';
 import 'package:flutter/material.dart';
 
 class ViewTodo extends StatelessWidget {
@@ -10,6 +9,7 @@ class ViewTodo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Details"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
